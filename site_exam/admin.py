@@ -8,3 +8,4 @@ class smexamAdmin(admin.ModelAdmin):
     list_filter = ('is_public', 'created_at')
     filter_horizontal = ('participants',)
     date_hierarchy = 'exam_date'
+# фиктивное изменение для коммита
