@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Рекомендации</title>
+</head>
+<body>
+    <h1>Рекомендации по твоим покупкам</h1>
+
+    <h2>Игры в твоём любимом жанре</h2>
+    <ul>
+        {% for game in genre_games %}
+            <li><strong>{{ game.title }}</strong> — {{ game.genre.name }}</li>
+        {% empty %}
+            <li>Нет рекомендаций по жанру</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Игры от любимого разработчика</h2>
+    <ul>
+        {% for game in developer_games %}
+            <li><strong>{{ game.title }}</strong> — {{ game.developer.name }}</li>
+        {% empty %}
+            <li>Нет рекомендаций по разработчику</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">← На главную</a>
+</body>
+</html>
