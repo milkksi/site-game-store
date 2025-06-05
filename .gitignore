@@ -1,8 +1,9 @@
-*.pyc
-__pycache__/
 venv/
-db.sqlite3
+__pycache__/
+*.pyc
+*.sqlite3
+.DS_Store
+.env
+.idea
 *.log
-*.idea/
-*.vscode/
-media/
+
