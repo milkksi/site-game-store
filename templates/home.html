@@ -26,19 +26,25 @@
     </form>
     
     {% if search_results %}
-        <div class="widget mb-4">
-            <h2>Результаты поиска</h2>
-            <ul class="list-group">
-                {% for game in search_results %}
-                    <li class="list-group-item">
-                        <strong>{{ game.title }}</strong> — {{ game.price }}₽
-                    </li>
-                {% empty %}
-                    <li class="list-group-item">Ничего не найдено</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+    <div class="widget mb-4">
+        <h2>Результаты поиска</h2>
+        <ul class="list-group">
+            {% for game in search_results %}
+                <li class="list-group-item d-flex align-items-center">
+                    {% if game.cover_image %}
+                        <img src="{{ game.cover_image.url }}" alt="cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/32x40?text=No+Image" alt="no cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                    {% endif %}
+                    <strong>{{ game.title }}</strong>
+                    <span class="ms-2">{{ game.price }}₽</span>
+                </li>
+            {% empty %}
+                <li class="list-group-item">Ничего не найдено</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
 
     <!-- Виджет 1: Популярные игры -->
     <div class="widget mb-4">
