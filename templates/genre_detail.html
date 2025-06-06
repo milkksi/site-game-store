@@ -11,19 +11,22 @@
         <h2 class="mb-3">Игры в жанре</h2>
         <ul class="list-group mb-4">
             {% for game in games %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>{{ game.title }}</strong>
-                        <span class="text-muted ms-2">— Дата релиза: {{ game.release_date }}</span>
-                        {% if game.developer %}
-                            <span class="badge bg-info text-dark ms-2">Разработчик: {{ game.developer.name }}</span>
-                        {% endif %}
-                    </div>
+                <li class="list-group-item d-flex align-items-center">
+                    {% if game.cover_image %}
+                        <img src="{{ game.cover_image.url }}" alt="cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/32x40?text=No+Image" alt="no cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                    {% endif %}
+                    <strong>{{ game.title }}</strong>
+                    <span class="text-muted ms-2">— Дата релиза: {{ game.release_date }}</span>
+                    {% if game.developer %}
+                        <span class="badge bg-info text-dark ms-2">Разработчик: {{ game.developer.name }}</span>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li class="list-group-item">Нет игр в этом жанре.</li>
             {% endfor %}
-        </ul>
+        </ul>        
         <a href="{% url 'all_genres' %}" class="btn btn-secondary me-2">← К списку жанров</a>
         <a href="/" class="btn btn-outline-primary">На главную</a>
     </div>
