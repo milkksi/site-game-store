@@ -15,6 +15,9 @@ from .views import (
     buy_cart,
     games_list_view,
     game_detail_view,
+    game_create_view,
+    game_edit_view,
+    game_delete_view,
 )
 from django.contrib.auth import views as auth_views
 
@@ -37,6 +40,10 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('games/', games_list_view, name='games_list'),
     path('game/<int:game_id>/', game_detail_view, name='game_detail'),
+    path('games/create/', game_create_view, name='game_create'),
+    path('game/<int:game_id>/edit/', game_edit_view, name='game_edit'),
+    path('game/<int:game_id>/delete/', game_delete_view, name='game_delete'),
+
 ]
 
 

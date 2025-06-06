@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,  get_object_or_404, redirect
 from django.db.models import Count
 from .models import Game, Genre, Purchase, User, Review
+from .forms import GameForm
 
 def home_view(request):
     query = request.GET.get('q')
@@ -199,3 +200,37 @@ def game_detail_view(request, game_id):
     game = get_object_or_404(Game, id=game_id)
     reviews = Review.objects.filter(game=game)
     return render(request, 'game_detail.html', {'game': game, 'reviews': reviews})
+
+@login_required
+def game_create_view(request):
+    if request.method == "POST":
+        form = GameForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('games_list')
+    else:
+        form = GameForm()
+    return render(request, 'game_form.html', {'form': form, 'is_edit': False})
+
+@login_required
+def game_edit_view(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    if request.method == "POST":
+        form = GameForm(request.POST, request.FILES, instance=game)
+        if form.is_valid():
+            form.save()
+            return redirect('game_detail', game_id=game.id)
+    else:
+        form = GameForm(instance=game)
+    return render(request, 'game_form.html', {'form': form, 'is_edit': True, 'game': game})
+
+
+@login_required
+def game_delete_view(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    if request.method == "POST":
+        game.delete()
+        return redirect('games_list')
+    return render(request, 'game_confirm_delete.html', {'game': game})
+
+
