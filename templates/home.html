@@ -85,7 +85,7 @@
                         <span class="small-date">Куплено: {{ game.purchase_count }} раз</span>
                     </div>
                     {% if user.is_authenticated %}
-                        {% if game.purchase_set.filter(user=user).exists %}
+                        {% if game.id in purchased_ids %}
                             <span class="ms-auto text-success fw-bold">Уже куплена</span>
                         {% elif game in user.favorite_games.all %}
                             <form action="{% url 'remove_from_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
@@ -124,7 +124,7 @@
                         <span class="small-date">{{ game.release_date }}</span>
                     </div>
                     {% if user.is_authenticated %}
-                        {% if game.purchase_set.filter(user=user).exists %}
+                        {% if game.id in purchased_ids %}
                             <span class="ms-auto text-success fw-bold">Уже куплена</span>
                         {% elif game in user.favorite_games.all %}
                             <form action="{% url 'remove_from_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">

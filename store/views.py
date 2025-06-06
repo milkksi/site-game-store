@@ -20,6 +20,12 @@ def home_view(request):
         game_count=Count('game')
     ).order_by('-game_count')[:5]
 
+    purchased_ids = []
+    if request.user.is_authenticated:
+        purchased_ids = list(
+            Purchase.objects.filter(user=request.user).values_list('game_id', flat=True)
+        )
+
     context = {
         'popular_games': popular_games,
         'new_releases': new_releases,
