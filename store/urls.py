@@ -1,7 +1,7 @@
-from .views import (
-    home_view, recommendations_view, 
-    all_new_games_view, top_games_view, all_genres_view, genre_detail_view
-)
+from django.urls import path  
+from .views import home_view, recommendations_view, all_new_games_view, top_games_view, all_genres_view, genre_detail_view
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('', home_view, name='home'),
