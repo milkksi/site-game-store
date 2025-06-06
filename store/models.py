@@ -53,6 +53,7 @@ class User(AbstractUser):
     role = models.CharField("Роль", max_length=20, choices=ROLE_CHOICES, default='client')
     favorite_games = models.ManyToManyField('Game', blank=True)
     created_at = models.DateTimeField("Дата регистрации", auto_now_add=True)
+    cart_games = models.ManyToManyField('Game', blank=True, related_name='cart_users')
 
 
 

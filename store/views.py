@@ -119,3 +119,23 @@ def remove_from_favorites(request, game_id):
     user = request.user
     user.favorite_games.remove(game)
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def add_to_cart(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    request.user.cart_games.add(game)
+    return redirect(request.META.get('HTTP_REFERER', '/profile/'))
+
+@login_required
+def remove_from_cart(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    request.user.cart_games.remove(game)
+    return redirect(request.META.get('HTTP_REFERER', '/profile/'))
+
+@login_required
+def buy_cart(request):
+    user = request.user
+    for game in user.cart_games.all():
+        Purchase.objects.create(user=user, game=game, price=game.price)
+    user.cart_games.clear()
+    return redirect('profile')

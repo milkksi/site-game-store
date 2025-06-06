@@ -48,6 +48,37 @@
             <li class="list-group-item">Вы ещё не оставляли отзывов.</li>
         {% endfor %}
     </ul>
+
+    <h2 class="mb-3">Моя корзина</h2>
+    <ul class="list-group mb-4">
+        {% for game in user.cart_games.all %}
+            <li class="list-group-item d-flex align-items-center">
+                {% if game.cover_image %}
+                    <img src="{{ game.cover_image.url }}" alt="cover" class="me-3" style="height:32px; width:26px; object-fit:cover; border-radius:4px;">
+                {% else %}
+                    <img src="https://via.placeholder.com/26x32?text=No+Image" alt="no cover" class="me-3" style="height:32px; width:26px; object-fit:cover; border-radius:4px;">
+                {% endif %}
+                <strong>{{ game.title }}</strong>
+                <span class="ms-2 text-muted">{{ game.genre.name }}</span>
+                <form action="{% url 'remove_from_cart' game.id %}" method="post" style="display:inline;" class="ms-auto">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Корзина пуста.</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.cart_games.count > 0 %}
+        <form action="{% url 'buy_cart' %}" method="post" class="mb-4">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">
+                Купить все игры из корзины
+            </button>
+        </form>
+    {% endif %}
+
     <div class="d-flex gap-3">
         <a href="/" class="btn btn-secondary">← На главную</a>
         <form action="{% url 'logout' %}" method="post" style="display: inline;">

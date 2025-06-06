@@ -10,6 +10,9 @@ from .views import (
     genre_detail_view,
     add_to_favorites,
     remove_from_favorites,
+    add_to_cart,
+    remove_from_cart,
+    buy_cart,
 )
 from django.contrib.auth import views as auth_views
 
@@ -25,6 +28,9 @@ urlpatterns = [
     path('genre/<int:genre_id>/', genre_detail_view, name='genre_detail'),
     path('favorite/add/<int:game_id>/', add_to_favorites, name='add_to_favorites'),
     path('favorite/remove/<int:game_id>/', remove_from_favorites, name='remove_from_favorites'),
+    path('cart/add/<int:game_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/remove/<int:game_id>/', remove_from_cart, name='remove_from_cart'),
+    path('cart/buy/', buy_cart, name='buy_cart'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]
