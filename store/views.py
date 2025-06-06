@@ -31,7 +31,8 @@ def home_view(request):
         'new_releases': new_releases,
         'top_genres': top_genres,
         'search_results': search_results,
-        'request': request  # чтобы получить `request.GET.q` в шаблоне
+        'request': request,
+        'purchased_ids': purchased_ids,
     }
 
     return render(request, 'home.html', context)
