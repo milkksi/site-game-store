@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.db.models import Count
-from .models import Game, Genre, Purchase, User
+from .models import Game, Genre, Purchase, User, Review
 
 def home_view(request):
     query = request.GET.get('q')
