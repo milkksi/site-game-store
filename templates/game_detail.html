@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ game.title }}</h1>
+    <p><img src="{{ game.cover_image.url }}" alt="cover" style="max-height:180px"></p>
+    <p><strong>Описание:</strong> {{ game.description }}</p>
+    <p><strong>Жанр:</strong> {{ game.genre.name }}</p>
+    <p><strong>Разработчик:</strong> {{ game.developer.name }}</p>
+    <p><strong>Дата релиза:</strong> {{ game.release_date }}</p>
+    <p><strong>Цена:</strong> {{ game.price }} ₽</p>
+    <a href="{% url 'game_edit' game.id %}" class="btn btn-primary">Редактировать</a>
+    <a href="{% url 'game_delete' game.id %}" class="btn btn-danger">Удалить</a>
+    <a href="{% url 'games_list' %}" class="btn btn-secondary">← К списку игр</a>
+    <h3 class="mt-4">Отзывы:</h3>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.user.username }}</strong> — {{ review.rating }}/10<br>
+                <span>{{ review.text }}</span>
+            </li>
+        {% empty %}
+            <li>Нет отзывов.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -191,3 +191,11 @@ def buy_cart(request):
     user.cart_games.clear()
     return redirect('profile')
 
+def games_list_view(request):
+    games = Game.objects.all()
+    return render(request, 'games_list.html', {'games': games})
+
+def game_detail_view(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    reviews = Review.objects.filter(game=game)
+    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews})

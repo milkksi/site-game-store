@@ -13,6 +13,8 @@ from .views import (
     add_to_cart,
     remove_from_cart,
     buy_cart,
+    games_list_view,
+    game_detail_view,
 )
 from django.contrib.auth import views as auth_views
 
@@ -33,6 +35,8 @@ urlpatterns = [
     path('cart/buy/', buy_cart, name='buy_cart'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('games/', games_list_view, name='games_list'),
+    path('game/<int:game_id>/', game_detail_view, name='game_detail'),
 ]
 
 
