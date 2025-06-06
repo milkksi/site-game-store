@@ -21,6 +21,8 @@ urlpatterns = [
     path('top/', top_games_view, name='top_games'),
     path('genres/', all_genres_view, name='all_genres'),
     path('genre/<int:genre_id>/', genre_detail_view, name='genre_detail'),
+    path('favorite/add/<int:game_id>/', add_to_favorites, name='add_to_favorites'),
+    path('favorite/remove/<int:game_id>/', remove_from_favorites, name='remove_from_favorites'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]
