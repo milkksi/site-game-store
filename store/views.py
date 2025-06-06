@@ -79,13 +79,35 @@ def recommendations_view(request):
 
 def all_new_games_view(request):
     games = Game.objects.order_by('-release_date')
-    return render(request, 'all_new_games.html', {'games': games})
+
+    purchased_ids = []
+    if request.user.is_authenticated:
+        purchased_ids = list(
+            Purchase.objects.filter(user=request.user).values_list('game_id', flat=True)
+        )
+
+    context = {
+        'games': games,
+        'purchased_ids': purchased_ids,
+    }
+    return render(request, 'all_new_games.html', context)
+
 
 def top_games_view(request):
     games = Game.objects.annotate(
         purchase_count=Count('purchase')
     ).order_by('-purchase_count')
-    return render(request, 'top_games.html', {'games': games})
+    purchased_ids = []
+    if request.user.is_authenticated:
+        purchased_ids = list(
+            Purchase.objects.filter(user=request.user).values_list('game_id', flat=True)
+        )
+
+    context = {
+        'games': games,
+        'purchased_ids': purchased_ids,
+    }
+    return render(request, 'top_games.html', context)
 
 def all_genres_view(request):
     genres = Genre.objects.annotate(game_count=Count('game')).order_by('-game_count')
@@ -94,7 +116,19 @@ def all_genres_view(request):
 def genre_detail_view(request, genre_id):
     genre = Genre.objects.get(id=genre_id)
     games = Game.objects.filter(genre=genre)
-    return render(request, 'genre_detail.html', {'genre': genre, 'games': games})
+
+    purchased_ids = []
+    if request.user.is_authenticated:
+        purchased_ids = list(
+            Purchase.objects.filter(user=request.user).values_list('game_id', flat=True)
+        )
+
+    context = {
+        'genre': genre,
+        'games': games,
+        'purchased_ids': purchased_ids,
+    }
+    return render(request, 'genre_detail.html', context)
 
 @login_required
 def favorite_games_view(request):
