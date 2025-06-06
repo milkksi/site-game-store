@@ -34,44 +34,41 @@ def home_view(request):
 def recommendations_view(request):
     user = request.user
 
-    # 1. Самый частый жанр, купленный пользователем
-    top_genre = (
+    genres = (
         Purchase.objects
         .filter(user=user)
         .values('game__genre')
         .annotate(total=Count('game__genre'))
         .order_by('-total')
-        .first()
     )
 
-    # 2. Самый частый разработчик, купленный пользователем
-    top_developer = (
+    top_total = genres[0]['total'] if genres else 0
+
+    top_genre_ids = [g['game__genre'] for g in genres if g['total'] == top_total]
+
+    genre_games = Game.objects.filter(
+        genre_id__in=top_genre_ids
+    ).exclude(purchase__user=user)[:5]
+
+    top_devs = (
         Purchase.objects
         .filter(user=user)
         .values('game__developer')
         .annotate(total=Count('game__developer'))
         .order_by('-total')
-        .first()
     )
+    dev_top_total = top_devs[0]['total'] if top_devs else 0
+    top_dev_ids = [d['game__developer'] for d in top_devs if d['total'] == dev_top_total]
 
-    # 3. Рекомендации на основе жанра
-    genre_games = []
-    if top_genre and top_genre['game__genre']:
-        genre_games = Game.objects.filter(
-            genre_id=top_genre['game__genre']
-        ).exclude(purchase__user=user)[:5]
-
-    # 4. Рекомендации на основе разработчика
-    developer_games = []
-    if top_developer and top_developer['game__developer']:
-        developer_games = Game.objects.filter(
-            developer_id=top_developer['game__developer']
-        ).exclude(purchase__user=user)[:5]
+    developer_games = Game.objects.filter(
+        developer_id__in=top_dev_ids
+    ).exclude(purchase__user=user)[:5]
 
     return render(request, 'recommendations.html', {
         'genre_games': genre_games,
         'developer_games': developer_games
     })
+
 
 def all_new_games_view(request):
     games = Game.objects.order_by('-release_date')
