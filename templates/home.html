@@ -16,99 +16,99 @@
     </style>
 </head>
 <body>
+<div class="container mt-4">
 
-    <h1>Главная страница Game Store</h1>
+    <h1 class="mb-4">Главная страница Game Store</h1>
 
-    <form method="get">
-        <input type="text" name="q" placeholder="Поиск по играм..." value="{{ request.GET.q }}">
-        <button type="submit">Найти</button>
+    <form method="get" class="mb-4 d-flex" style="max-width: 400px;">
+        <input type="text" class="form-control me-2" name="q" placeholder="Поиск по играм..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-primary">Найти</button>
     </form>
     
     {% if search_results %}
-        <div class="widget">
+        <div class="widget mb-4">
             <h2>Результаты поиска</h2>
-            <ul>
+            <ul class="list-group">
                 {% for game in search_results %}
-                    <li>
+                    <li class="list-group-item">
                         <strong>{{ game.title }}</strong> — {{ game.price }}₽
                     </li>
                 {% empty %}
-                    <li>Ничего не найдено</li>
+                    <li class="list-group-item">Ничего не найдено</li>
                 {% endfor %}
             </ul>
         </div>
     {% endif %}
-    
 
     <!-- Виджет 1: Популярные игры -->
-    <div class="widget">
+    <div class="widget mb-4">
         <h2>Популярные игры</h2>
-        <ol class="numbered-list">
+        <ol class="list-group list-group-numbered">
             {% for game in popular_games %}
-                <li class="game">
+                <li class="list-group-item d-flex align-items-center">
                     {% if game.cover_image %}
-                        <img src="{{ game.cover_image.url }}" alt="cover" />
+                        <img src="{{ game.cover_image.url }}" alt="cover" style="height: 50px; margin-right: 15px;" />
                     {% else %}
-                        <img src="https://via.placeholder.com/50x70?text=No+Image" alt="no cover" />
+                        <img src="https://via.placeholder.com/50x70?text=No+Image" alt="no cover" style="height: 50px; margin-right: 15px;" />
                     {% endif %}
 
                     <div>
                         <strong>{{ game.title }}</strong><br>
                         <span class="small-date">Куплено: {{ game.purchase_count }} раз</span>
                     </div>
-                    <button class="save-button">☆ В избранное</button>
+                    <button class="btn btn-outline-secondary btn-sm ms-auto save-button">☆ В избранное</button>
                 </li>
             {% empty %}
-                <li>Нет популярных игр</li>
+                <li class="list-group-item">Нет популярных игр</li>
             {% endfor %}
         </ol>
-        <a href="{% url 'top_games' %}">Смотреть весь рейтинг</a>
+        <a href="{% url 'top_games' %}" class="btn btn-link p-0 mt-2">Смотреть весь рейтинг</a>
     </div>
 
     <!-- Виджет 2: Новые релизы -->
-    <div class="widget">
+    <div class="widget mb-4">
         <h2>Новые релизы</h2>
-        <ol class="numbered-list">
+        <ol class="list-group list-group-numbered">
             {% for game in new_releases %}
-                <li class="game">
+                <li class="list-group-item d-flex align-items-center">
                     {% if game.cover_image %}
-                        <img src="{{ game.cover_image.url }}" alt="cover" />
+                        <img src="{{ game.cover_image.url }}" alt="cover" style="height: 50px; margin-right: 15px;" />
                     {% else %}
-                        <img src="https://via.placeholder.com/50x70?text=No+Image" alt="no cover" />
+                        <img src="https://via.placeholder.com/50x70?text=No+Image" alt="no cover" style="height: 50px; margin-right: 15px;" />
                     {% endif %}
-
                     <div>
                         <strong>{{ game.title }}</strong><br>
                         <span class="small-date">{{ game.release_date }}</span>
                     </div>
-                    <button class="save-button">☆ В избранное</button>
+                    <button class="btn btn-outline-secondary btn-sm ms-auto save-button">☆ В избранное</button>
                 </li>
             {% empty %}
-                <li>Нет новых релизов</li>
+                <li class="list-group-item">Нет новых релизов</li>
             {% endfor %}
         </ol>
-        <a href="{% url 'all_new_games' %}">Календарь релизов</a>
+        <a href="{% url 'all_new_games' %}" class="btn btn-link p-0 mt-2">Календарь релизов</a>
     </div>
 
     <!-- Виджет 3: Топ жанров -->
-    <div class="widget">
+    <div class="widget mb-4">
         <h2>Популярные жанры</h2>
-        <ol class="numbered-list">
+        <ol class="list-group list-group-numbered">
             {% for genre in top_genres %}
-                <li class="genre">
+                <li class="list-group-item d-flex align-items-center">
                     <div>
                         <strong>{{ genre.name }}</strong> — {{ genre.game_count }} игр
                     </div>
-                    <a href="{% url 'genre_detail' genre.id %}">Подробнее</a>
+                    <a href="{% url 'genre_detail' genre.id %}" class="btn btn-link ms-auto">Подробнее</a>
                 </li>
             {% empty %}
-                <li>Жанры отсутствуют</li>
+                <li class="list-group-item">Жанры отсутствуют</li>
             {% endfor %}
         </ol>
-        <a href="{% url 'all_genres' %}">Все жанры</a>
+        <a href="{% url 'all_genres' %}" class="btn btn-link p-0 mt-2">Все жанры</a>
     </div>
 
-    <a href="{% url 'recommendations' %}">📦 Смотреть рекомендации</a>
+    <a href="{% url 'recommendations' %}" class="btn btn-success">📦 Смотреть рекомендации</a>
 
-</body>
+</div>
+</body>    
 </html>
