@@ -10,22 +10,27 @@
         <h1 class="mb-4">Топ игр по покупкам</h1>
         <ol class="list-group list-group-numbered mb-4">
             {% for game in games %}
-                <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-center">
-                    <div>
+                <li class="list-group-item d-flex align-items-center">
+                    {% if game.cover_image %}
+                        <img src="{{ game.cover_image.url }}" alt="cover" class="me-3" style="height: 50px; width: 40px; object-fit: cover; border-radius: 6px;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/40x50?text=No+Image" alt="no cover" class="me-3" style="height: 50px; width: 40px; object-fit: cover; border-radius: 6px;">
+                    {% endif %}
+                    <div class="flex-grow-1">
                         <strong>{{ game.title }}</strong>
                         <span class="text-muted ms-2">— Куплено: {{ game.purchase_count }} раз</span>
                         {% if game.genre %}
                             <span class="badge bg-secondary ms-2">Жанр: {{ game.genre.name }}</span>
                         {% endif %}
                         {% if game.developer %}
-                            <span class="badge bg-info ms-2">Разработчик: {{ game.developer.name }}</span>
+                            <span class="badge bg-info text-dark ms-2">Разработчик: {{ game.developer.name }}</span>
                         {% endif %}
                     </div>
                 </li>
             {% empty %}
                 <li class="list-group-item">Нет данных для отображения.</li>
             {% endfor %}
-        </ol>
+        </ol>        
         <a href="/" class="btn btn-secondary">← На главную</a>
     </div>
 </body>
