@@ -10,12 +10,17 @@
         <h2>Все новинки</h2>
         <ul class="list-group mb-4">
           {% for game in games %}
-            <li class="list-group-item">
+            <li class="list-group-item d-flex align-items-center">
+                {% if game.cover_image %}
+                    <img src="{{ game.cover_image.url }}" alt="cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                {% else %}
+                    <img src="https://via.placeholder.com/32x40?text=No+Image" alt="no cover" class="me-3" style="height: 40px; width: 32px; object-fit: cover; border-radius: 5px;">
+                {% endif %}
                 <strong>{{ game.title }}</strong>
-                — {{ game.release_date }}
+                <span class="ms-2">{{ game.release_date }}</span>
             </li>
           {% endfor %}
-        </ul>
+        </ul>        
         <a href="/" class="btn btn-secondary">← На главную</a>
     </div>
 </body>
