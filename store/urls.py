@@ -8,6 +8,8 @@ from .views import (
     top_games_view,
     all_genres_view,
     genre_detail_view,
+    add_to_favorites,
+    remove_from_favorites,
 )
 from django.contrib.auth import views as auth_views
 
