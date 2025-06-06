@@ -21,16 +21,26 @@
                 <strong>{{ game.title }}</strong>
                 <span class="ms-2 text-muted">{{ game.genre.name }}</span>
                 <span class="badge bg-info text-dark ms-2">{{ game.developer.name }}</span>
-                {% if user.is_authenticated %}
-                    {% if game in user.cart_games.all %}
-                        <form action="{% url 'remove_from_cart' game.id %}" method="post" class="ms-auto" style="display:inline;">
+
+                {% if game.id in purchased_ids %}
+                    <span class="ms-auto text-success fw-bold">Уже куплена</span>
+                {% else %}
+                    {% if user.is_authenticated %}
+                        {% if game in user.cart_games.all %}
+                            <form action="{% url 'remove_from_cart' game.id %}" method="post" class="ms-auto" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm ms-2">✓ В корзине</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'add_to_cart' game.id %}" method="post" class="ms-auto" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-primary btn-sm ms-2">+ В корзину</button>
+                            </form>
+                        {% endif %}
+                        <!-- Можно добавить кнопку убрать из избранного -->
+                        <form action="{% url 'remove_from_favorites' game.id %}" method="post" class="ms-2" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-success btn-sm ms-2">✓ В корзине</button>
-                        </form>
-                    {% else %}
-                        <form action="{% url 'add_to_cart' game.id %}" method="post" class="ms-auto" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary btn-sm ms-2">+ В корзину</button>
+                            <button type="submit" class="btn btn-warning btn-sm">Убрать</button>
                         </form>
                     {% endif %}
                 {% endif %}

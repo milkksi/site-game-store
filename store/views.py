@@ -99,7 +99,13 @@ def genre_detail_view(request, genre_id):
 def favorite_games_view(request):
     user = request.user
     games = user.favorite_games.all()
-    return render(request, 'favorite_games.html', {'games': games})
+    purchased_ids = []
+    if user.is_authenticated:
+        purchased_ids = list(
+            Purchase.objects.filter(user=user).values_list('game_id', flat=True)
+        )
+    return render(request, 'favorite_games.html', {'games': games, 'purchased_ids': purchased_ids})
+
 
 @login_required
 def profile_view(request):
