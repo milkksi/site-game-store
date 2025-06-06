@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Топ игр по покупкам</title>
+</head>
+<body>
+    <h1>Топ игр по покупкам</h1>
+    <ol>
+        {% for game in games %}
+            <li>
+                <strong>{{ game.title }}</strong>
+                — Куплено: {{ game.purchase_count }} раз
+                {% if game.genre %} | Жанр: {{ game.genre.name }}{% endif %}
+                {% if game.developer %} | Разработчик: {{ game.developer.name }}{% endif %}
+            </li>
+        {% empty %}
+            <li>Нет данных для отображения.</li>
+        {% endfor %}
+    </ol>
+    <a href="/">← На главную</a>
+</body>
+</html>

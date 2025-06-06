@@ -72,3 +72,22 @@ def recommendations_view(request):
         'genre_games': genre_games,
         'developer_games': developer_games
     })
+
+def all_new_games_view(request):
+    games = Game.objects.order_by('-release_date')
+    return render(request, 'all_new_games.html', {'games': games})
+
+def top_games_view(request):
+    games = Game.objects.annotate(
+        purchase_count=Count('purchase')
+    ).order_by('-purchase_count')
+    return render(request, 'top_games.html', {'games': games})
+
+def all_genres_view(request):
+    genres = Genre.objects.annotate(game_count=Count('game')).order_by('-game_count')
+    return render(request, 'all_genres.html', {'genres': genres})
+
+def genre_detail_view(request, genre_id):
+    genre = Genre.objects.get(id=genre_id)
+    games = Game.objects.filter(genre=genre)
+    return render(request, 'genre_detail.html', {'genre': genre, 'games': games})

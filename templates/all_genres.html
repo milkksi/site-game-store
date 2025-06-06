@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все жанры</title>
+</head>
+<body>
+    <h1>Все жанры</h1>
+    <ul>
+        {% for genre in genres %}
+            <li>
+                <strong>{{ genre.name }}</strong>
+                — {{ genre.game_count }} игр
+                <a href="{% url 'genre_detail' genre.id %}">Подробнее</a>
+            </li>
+        {% empty %}
+            <li>Жанры отсутствуют.</li>
+        {% endfor %}
+    </ul>
+    <a href="/">← На главную</a>
+</body>
+</html>

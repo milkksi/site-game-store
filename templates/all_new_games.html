@@ -1,0 +1,7 @@
+<h2>Все новинки</h2>
+<ul>
+  {% for game in games %}
+    <li>{{ game.title }} — {{ game.release_date }}</li>
+  {% endfor %}
+</ul>
+<a href="/">← На главную</a>
