@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render,  get_object_or_404, redirect
 from django.db.models import Count
 from .models import Game, Genre, Purchase, User, Review
 
@@ -105,3 +105,17 @@ def profile_view(request):
         'reviews': reviews,
         'user': user,
     })
+
+@login_required
+def add_to_favorites(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    user = request.user
+    user.favorite_games.add(game)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def remove_from_favorites(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    user = request.user
+    user.favorite_games.remove(game)
+    return redirect(request.META.get('HTTP_REFERER', '/'))
