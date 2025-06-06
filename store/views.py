@@ -137,5 +137,7 @@ def buy_cart(request):
     user = request.user
     for game in user.cart_games.all():
         Purchase.objects.create(user=user, game=game, price=game.price)
+        user.favorite_games.remove(game)  
     user.cart_games.clear()
     return redirect('profile')
+
