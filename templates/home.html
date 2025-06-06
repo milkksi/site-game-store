@@ -85,10 +85,12 @@
                         <span class="small-date">Куплено: {{ game.purchase_count }} раз</span>
                     </div>
                     {% if user.is_authenticated %}
-                        {% if game in user.favorite_games.all %}
+                        {% if game.purchase_set.filter(user=user).exists %}
+                            <span class="ms-auto text-success fw-bold">Уже куплена</span>
+                        {% elif game in user.favorite_games.all %}
                             <form action="{% url 'remove_from_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-warning btn-sm">★ Убрать из избранного</button>
+                                <button type="submit" class="btn btn-warning btn-sm">★</button>
                             </form>
                         {% else %}
                             <form action="{% url 'add_to_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
@@ -122,10 +124,12 @@
                         <span class="small-date">{{ game.release_date }}</span>
                     </div>
                     {% if user.is_authenticated %}
-                        {% if game in user.favorite_games.all %}
+                        {% if game.purchase_set.filter(user=user).exists %}
+                            <span class="ms-auto text-success fw-bold">Уже куплена</span>
+                        {% elif game in user.favorite_games.all %}
                             <form action="{% url 'remove_from_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-warning btn-sm">★ Убрать из избранного</button>
+                                <button type="submit" class="btn btn-warning btn-sm">★</button>
                             </form>
                         {% else %}
                             <form action="{% url 'add_to_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
