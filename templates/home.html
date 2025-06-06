@@ -60,13 +60,28 @@
                     {% endif %}
                     <strong>{{ game.title }}</strong>
                     <span class="ms-2">{{ game.price }}₽</span>
+                    {% if user.is_authenticated %}
+                        {% if game.id in purchased_ids %}
+                            <span class="ms-auto text-success fw-bold">Уже куплена</span>
+                        {% elif game in user.favorite_games.all %}
+                            <form action="{% url 'remove_from_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-warning btn-sm">★ В избранном</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'add_to_favorites' game.id %}" method="post" style="display:inline;" class="ms-auto">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-secondary btn-sm">☆ В избранное</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
                 </li>
             {% empty %}
                 <li class="list-group-item">Ничего не найдено</li>
             {% endfor %}
         </ul>
     </div>
-{% endif %}
+    {% endif %}
 
     <!-- Виджет 1: Популярные игры -->
     <div class="widget mb-4">
@@ -99,8 +114,6 @@
                             </form>
                         {% endif %}
                     {% endif %}
-                
-
                 </li>
             {% empty %}
                 <li class="list-group-item">Нет популярных игр</li>
