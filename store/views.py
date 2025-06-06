@@ -91,3 +91,20 @@ def genre_detail_view(request, genre_id):
     genre = Genre.objects.get(id=genre_id)
     games = Game.objects.filter(genre=genre)
     return render(request, 'genre_detail.html', {'genre': genre, 'games': games})
+
+@login_required
+def favorite_games_view(request):
+    user = request.user
+    games = user.favorite_games.all()
+    return render(request, 'favorite_games.html', {'games': games})
+
+@login_required
+def profile_view(request):
+    user = request.user
+    purchases = Purchase.objects.filter(user=user)
+    reviews = Review.objects.filter(user=user)
+    return render(request, 'profile.html', {
+        'purchases': purchases,
+        'reviews': reviews,
+        'user': user,
+    })
