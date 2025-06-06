@@ -22,11 +22,7 @@ urlpatterns = [
     path('genres/', all_genres_view, name='all_genres'),
     path('genre/<int:genre_id>/', genre_detail_view, name='genre_detail'),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path(
-        'accounts/logout/',
-        auth_views.LogoutView.as_view(next_page='login'),
-        name='logout'
-    ),
+    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='login.html'), name='logout'),
 ]
 
 
