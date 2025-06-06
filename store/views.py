@@ -199,7 +199,9 @@ def games_list_view(request):
 def game_detail_view(request, game_id):
     game = get_object_or_404(Game, id=game_id)
     reviews = Review.objects.filter(game=game)
-    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews})
+    purchases = Purchase.objects.filter(game=game)
+    buyers = User.objects.filter(purchase__game=game).distinct()
+    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews, 'buyers': buyers, 'purchases': purchases})
 
 @login_required
 def game_create_view(request):

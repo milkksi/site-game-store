@@ -18,6 +18,22 @@
     <p><strong>Разработчик:</strong> {{ game.developer.name }}</p>
     <p><strong>Дата релиза:</strong> {{ game.release_date }}</p>
     <p><strong>Цена:</strong> {{ game.price }} ₽</p>
+    <h4>Покупатели этой игры:</h4>
+    <ul>
+        {% for buyer in buyers %}
+            <li>{{ buyer.username }}{% if buyer.email %} ({{ buyer.email }}){% endif %}</li>
+        {% empty %}
+            <li>Эту игру ещё никто не покупал.</li>
+        {% endfor %}
+    </ul>
+    <h4>История покупок:</h4>
+    <ul>
+        {% for purchase in purchases %}
+            <li>{{ purchase.user.username }} — {{ purchase.purchase_date|date:"d.m.Y" }}</li>
+        {% empty %}
+            <li>Эту игру ещё никто не покупал.</li>
+        {% endfor %}
+    </ul>
     <a href="{% url 'game_edit' game.id %}" class="btn btn-primary">Редактировать</a>
     <a href="{% url 'game_delete' game.id %}" class="btn btn-danger">Удалить</a>
     <a href="{% url 'games_list' %}" class="btn btn-secondary">← К списку игр</a>
