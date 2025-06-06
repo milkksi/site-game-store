@@ -116,8 +116,11 @@ def profile_view(request):
 def add_to_favorites(request, game_id):
     game = get_object_or_404(Game, id=game_id)
     user = request.user
+    if Purchase.objects.filter(user=user, game=game).exists():
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     user.favorite_games.add(game)
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 @login_required
 def remove_from_favorites(request, game_id):
